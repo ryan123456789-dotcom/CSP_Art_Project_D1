@@ -166,7 +166,7 @@ def draw_picture(width, height):
     triangle_height = height / 5
     triangle_width = width / 3
     
-    # 3. Draw a red circle
+    # 3. Draw a red circle (Sun)
     set_fill_color(colors[0])
     fill_circle(450, 50, 50)
 
@@ -176,7 +176,11 @@ def draw_picture(width, height):
     set_fill_color("#c7c1c1") # lighter gray
     fill_triangle(350, 150, 400, 20, 550, 150)
 
-    # 5. Draw Clouds (Behind trees, but overlapping sky/mountains)
+    # 5. Draw Lightning (Drawn BEFORE clouds so it sits underneath them)
+    lightning(240, 35, scale=0.3)    # Sits right behind Cloud 2
+    lightning(75, 65, scale=0.22)    # Sits right behind Cloud 1
+
+    # 6. Draw Clouds (Layered on top of the lightning bolts)
     set_fill_color("white")
     set_outline_color("#cccccc")   # light-gray edge so clouds are visible
     set_line_thickness(1)
@@ -193,12 +197,12 @@ def draw_picture(width, height):
     fill_circle(295, 50, 24)
     fill_circle(318, 58, 18)
 
-    # 6. Draw Horizon
+    # 7. Draw Horizon
     set_outline_color("black")
     set_line_thickness(1)
     draw_line(0, 150, 600, 150)
     
-    # 7. Draw River Curve
+    # 8. Draw River Curve
     river_points = [
         (100, 150), # Start point
         (300, 200), # Bends towards here
@@ -209,7 +213,7 @@ def draw_picture(width, height):
     set_line_thickness(2)
     draw_curve(river_points)
     
-    # 8. Draw Forest
+    # 9. Draw Forest
     for x in range(40, 500, 70):
         # tree trunk
         set_fill_color("#F325FF")  # purple-pink brown 
@@ -219,10 +223,6 @@ def draw_picture(width, height):
         set_fill_color("darkgreen")
         fill_triangle(x - 20, 119, x + 35, 120, x + 3, 70)
         fill_triangle(x - 15, 96, x + 30, 95, x + 7, 50)
-    
-    # 9. Draw the lightning strikes LAST (Keeps them on top layer over clouds/mountains)
-    lightning(350, -10, scale=0.5)  # Larger strike piercing right over mountain peak
-    lightning(80, 20, scale=0.35)   # Smaller strike on the left over the woods
     
 
 if __name__ == "__main__":
