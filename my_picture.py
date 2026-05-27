@@ -41,7 +41,24 @@ def draw_picture(width, height):
     sg.set_outline_color("blue")
     sg.set_line_thickness(8)
     sg.draw_curve(river_points)
+
+    # draw forest
     
+    for x in range(40, 500, 70):
+        
+        # tree trunk
+        sg.set_fill_color("#F325FF")  # brown
+        sg.fill_rectangle(x, 110, 15, 40)
+        
+        # tree leaves
+        sg.set_fill_color("darkgreen")
+        sg.fill_triangle(
+            x - 20, 119,
+            x + 35, 120,
+            x + 3, 70)
+        sg.fill_triangle( x - 15, 96,x + 30, 95,x + 7, 50)
+        
+        
 
 if __name__ == "__main__":
     # Launch the wrapper; only edit starting dimensions of canvas if you would like to
