@@ -25,6 +25,22 @@ def draw_picture(width, height):
     sg.set_fill_color("#c7c1c1") # lighter gray
     sg. fill_triangle(350, 150, 400, 20, 550, 150)
 
+    sg.set_fill_color("white")
+    sg.set_outline_color("#cccccc")   # light-gray edge so clouds are visible
+    sg.set_line_thickness(1)
+
+    # Cloud 1 — left side of sky
+    sg.fill_circle(80,  90, 30)
+    sg.fill_circle(110, 75, 38)
+    sg.fill_circle(145, 82, 28)
+    sg.fill_circle(170, 90, 22)
+
+    # Cloud 2 — centre sky (small, fluffy)
+    sg.fill_circle(240, 55, 22)
+    sg.fill_circle(265, 43, 30)
+    sg.fill_circle(295, 50, 24)
+    sg.fill_circle(318, 58, 18)
+
     # draw horizon
     sg.set_outline_color("black")
     sg.set_line_thickness(1)
