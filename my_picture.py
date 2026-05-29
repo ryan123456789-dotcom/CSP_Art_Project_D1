@@ -20,13 +20,9 @@ def start(draw_function, width=800, height=600):
     _canvas = tk.Canvas(root, width=width, height=height, bg="white", highlightthickness=0)
     _canvas.pack()
     
-
     draw_function(width, height)
     
-
     root.mainloop()
-
-
 
 
 def map_value(value, start1, stop1, start2, stop2):
@@ -47,8 +43,6 @@ def rgb_hex_to_hls(hex_str):
     hex_str = hex_str.lstrip('#')
     r, g, b = tuple(int(hex_str[i:i+2], 16) / 255.0 for i in (0, 2, 4))
     return colorsys.rgb_to_hls(r, g, b)
-
-
 
 
 def set_fill_color(color_name):
@@ -120,11 +114,29 @@ def draw_curve(points_list):
 def draw_text(x, y, text_string, font_size=16):
     _canvas.create_text(x, y, text=text_string, fill=_fill_color, anchor="nw", font=("Arial", font_size))
 
+
+# =====================================================================
+# UPDATED MOUNTAIN FUNCTION WITH SNOW CAPS
+# =====================================================================
 def draw_mountain(peak_x, peak_y, base_width, base_y, color_hex):
-    """Helper function to draw mountains seamlessly with the local API."""
+    """Draws a mountain and adds a clean, proportional white snow cap to the peak."""
+    # 1. Draw the main mountain body
     set_fill_color(color_hex)
+    set_outline_color("grey")
+    set_line_thickness(1)
     half_width = base_width / 2
     fill_triangle(peak_x - half_width, base_y, peak_x, peak_y, peak_x + half_width, base_y)
+    
+    # 2. Draw the snow cap (Top 25% of the mountain)
+    snow_height_ratio = 0.25
+    mountain_height = base_y - peak_y
+    
+    snow_base_y = peak_y + (mountain_height * snow_height_ratio)
+    snow_half_width = half_width * snow_height_ratio
+    
+    set_fill_color("white")
+    set_outline_color("#cccccc") # Light grey outline to make the white pop against the sky
+    fill_triangle(peak_x - snow_half_width, snow_base_y, peak_x, peak_y, peak_x + snow_half_width, snow_base_y)
 
 
 def lightning(x, y, scale=0.4):
@@ -146,8 +158,9 @@ def lightning(x, y, scale=0.4):
     _canvas.create_polygon(points, fill=_fill_color, outline=_outline_color, width=_line_thickness)
 
 
-#MAIN PICTURE
-
+# =====================================================================
+# MAIN PICTURE
+# =====================================================================
 def draw_picture(width, height):
     """Draws a static picture combining scenery elements, clouds, forest, and lightning."""
     
@@ -160,10 +173,7 @@ def draw_picture(width, height):
     set_line_thickness(1)
     fill_circle(450, 120, 50) 
 
-    # 3. Draw Mountains
-    set_line_thickness(1)
-    set_outline_color("grey")
-    
+    # 3. Draw Mountains (They will automatically render with snow caps now)
     # --- LEFT SIDE RANGE ---
     draw_mountain(150, 100, 200, 250, "#a0a0a0") 
     draw_mountain(250, 150, 250, 250, "#c0c0c0") 
@@ -176,14 +186,11 @@ def draw_picture(width, height):
     draw_mountain(500, 150, 300, 250, "#808080") 
     draw_mountain(380, 80, 250, 250, "#a0a0a0")  
 
-    # 4. Draw Lightning (Shifted left and up to tuck deeply into the clouds)
-
+    # 4. Draw Lightning (Drawn behind the clouds)
     lightning(95, 50, scale=0.3)    
-    
-
     lightning(390, 48, scale=0.22)
     
-    # 5. Draw Clouds
+    # 5. Draw Clouds (Drawn on top of the lightning so it hides the flat top edge)
     set_fill_color("white")
     set_outline_color("#cccccc")   
     set_line_thickness(1)
@@ -200,10 +207,8 @@ def draw_picture(width, height):
     fill_circle(435, 50, 24)
     fill_circle(458, 58, 18)
 
-  
-
-    # 6. Fill the ground base with Light Brown below y=250
-    set_fill_color("#CD853F") 
+    # 6. Fill the ground base
+    set_fill_color("#41980a") 
     set_outline_color("")
     fill_rectangle(0, 250, 600, 150)
 
@@ -214,12 +219,10 @@ def draw_picture(width, height):
     
     # 8. Draw Forest (Way down in the absolute foreground)
     for x in range(30, 550, 85):
-
         set_fill_color("brown")  
         fill_rectangle(x, 260, 20, 60)
         
-
-        set_fill_color("green")
+        set_fill_color("#0B6623")
         set_outline_color("black")
         fill_triangle(x - 30, 275, x + 50, 275, x + 10, 200)
         fill_triangle(x - 22, 240, x + 42, 240, x + 10, 170)
