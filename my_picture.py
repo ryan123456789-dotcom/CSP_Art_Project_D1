@@ -170,12 +170,19 @@ def draw_picture(width, height):
     set_fill_color(colors[0])
     fill_circle(450, 50, 50)
 
-    # 4. Draw the Mountain
-    set_fill_color("#827e7e") # relatively dark gray
-    fill_triangle(300, 150, 400, 20, 350, 150)
-    set_fill_color("#c7c1c1") # lighter gray
-    fill_triangle(350, 150, 400, 20, 550, 150)
 
+    # draw horizon
+    sg.set_outline_color("black")
+    sg.set_line_thickness(1)
+    sg.draw_line(0, 150, 600, 150)
+
+
+    #James Mountain 
+    sg.set_line_thickness(1)
+    sg.set_outline_color("grey")
+    sg.draw_mountain(150, 100, 200, 250, "#a0a0a0") # Background mountain
+    sg.draw_mountain(250, 150, 250, 250, "#c0c0c0") # Foreground mountain
+    
     # 5. Draw Lightning (Drawn BEFORE clouds so it sits underneath them)
     lightning(240, 35, scale=0.3)    # Sits right behind Cloud 2
     lightning(75, 65, scale=0.22)    # Sits right behind Cloud 1
@@ -202,16 +209,6 @@ def draw_picture(width, height):
     set_line_thickness(1)
     draw_line(0, 150, 600, 150)
     
-    # 8. Draw River Curve
-    river_points = [
-        (100, 150), # Start point
-        (300, 200), # Bends towards here
-        (200, 350), # Bends back here
-        (500, 500)  # End point
-    ]
-    set_outline_color("black")
-    set_line_thickness(2)
-    draw_curve(river_points)
     
     # 9. Draw Forest
     for x in range(40, 500, 70):
@@ -224,6 +221,11 @@ def draw_picture(width, height):
         fill_triangle(x - 20, 119, x + 35, 120, x + 3, 70)
         fill_triangle(x - 15, 96, x + 30, 95, x + 7, 50)
     
+    sg.draw_mountain(100, 150, 300, 250, "#808080") # Wide, medium mountain on the left
+    sg.draw_mountain(220, 80, 250, 250, "#a0a0a0")  # Taller mountain overlapping it
+
+
+
 
 if __name__ == "__main__":
     # Start the single combined canvas window
