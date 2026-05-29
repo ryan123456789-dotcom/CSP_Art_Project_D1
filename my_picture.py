@@ -3,7 +3,6 @@ import random
 import math
 import tkinter as tk
 
-# Internal state variables to track the "paintbrush"
 _canvas = None
 _fill_color = "black"
 _outline_color = "black"
@@ -21,15 +20,14 @@ def start(draw_function, width=800, height=600):
     _canvas = tk.Canvas(root, width=width, height=height, bg="white", highlightthickness=0)
     _canvas.pack()
     
-    # Call the student's function, passing only the width and height
+
     draw_function(width, height)
     
-    # Start the GUI loop
+
     root.mainloop()
 
-# =====================================================================
-# HELPER FUNCTIONS
-# =====================================================================
+
+
 
 def map_value(value, start1, stop1, start2, stop2):
     """Re-maps a number from one range to another."""
@@ -50,9 +48,8 @@ def rgb_hex_to_hls(hex_str):
     r, g, b = tuple(int(hex_str[i:i+2], 16) / 255.0 for i in (0, 2, 4))
     return colorsys.rgb_to_hls(r, g, b)
 
-# =====================================================================
-# DRAWING API FOR STUDENTS
-# =====================================================================
+
+
 
 def set_fill_color(color_name):
     global _fill_color
@@ -123,108 +120,109 @@ def draw_curve(points_list):
 def draw_text(x, y, text_string, font_size=16):
     _canvas.create_text(x, y, text=text_string, fill=_fill_color, anchor="nw", font=("Arial", font_size))
 
+def draw_mountain(peak_x, peak_y, base_width, base_y, color_hex):
+    """Helper function to draw mountains seamlessly with the local API."""
+    set_fill_color(color_hex)
+    half_width = base_width / 2
+    fill_triangle(peak_x - half_width, base_y, peak_x, peak_y, peak_x + half_width, base_y)
 
-# =====================================================================
-# CUSTOM LIGHTNING SHAPE FUNCTION (Matches Image Exactly)
-# =====================================================================
 
 def lightning(x, y, scale=0.4):
-    """Draws a unified, custom vector lightning bolt matching your reference image.
-    
-    The scale parameter adjusts how big it prints (e.g., 0.4 means 40% size).
-    """
+    """Draws a unified, custom vector lightning bolt matching your reference image."""
     set_fill_color("#FFD200")     # Solid golden yellow
     set_outline_color("#FFA500")  # Orange borders
     set_line_thickness(3)
     
-    # Precise 7-vertex path tracking the outer border coordinates of your picture
     points = [
-        x + 55 * scale,  y + 0 * scale,    # 1. Top left corner
-        x + 195 * scale, y + 0 * scale,    # 2. Top right corner
-        x + 105 * scale, y + 105 * scale,  # 3. Inner right indentation
-        x + 179 * scale, y + 105 * scale,  # 4. Right side middle shelf
-        x + 20 * scale,  y + 295 * scale,  # 5. Sharp bottom tip
-        x + 60 * scale,  y + 150 * scale,  # 6. Inner left indentation
-        x + 5 * scale,   y + 150 * scale   # 7. Left side middle shelf
+        x + 55 * scale,  y + 0 * scale,    
+        x + 195 * scale, y + 0 * scale,    
+        x + 105 * scale, y + 105 * scale,  
+        x + 179 * scale, y + 105 * scale,  
+        x + 20 * scale,  y + 295 * scale,  
+        x + 60 * scale,  y + 150 * scale,  
+        x + 5 * scale,   y + 150 * scale   
     ]
     
     _canvas.create_polygon(points, fill=_fill_color, outline=_outline_color, width=_line_thickness)
 
 
-# =====================================================================
-# MAIN PICTURE CREATION
-# =====================================================================
+#MAIN PICTURE
 
 def draw_picture(width, height):
     """Draws a static picture combining scenery elements, clouds, forest, and lightning."""
     
-    # 1. Fill the background
-    fill_background("white")
+    # 1. Fill the background sky
+    fill_background("#FF8C00") 
     
-    # 2. Make some variables available
-    colors = ["red", "green", "blue", "cyan", "magenta", "yellow"]
-    triangle_height = height / 5
-    triangle_width = width / 3
-    
-    # 3. Draw a red circle (Sun)
-    set_fill_color(colors[0])
-    fill_circle(450, 50, 50)
-
-
-    # draw horizon
-    sg.set_outline_color("black")
-    sg.set_line_thickness(1)
-    sg.draw_line(0, 150, 600, 150)
-
-
-    #James Mountain 
-    sg.set_line_thickness(1)
-    sg.set_outline_color("grey")
-    sg.draw_mountain(150, 100, 200, 250, "#a0a0a0") # Background mountain
-    sg.draw_mountain(250, 150, 250, 250, "#c0c0c0") # Foreground mountain
-    
-    # 5. Draw Lightning (Drawn BEFORE clouds so it sits underneath them)
-    lightning(240, 35, scale=0.3)    # Sits right behind Cloud 2
-    lightning(75, 65, scale=0.22)    # Sits right behind Cloud 1
-
-    # 6. Draw Clouds (Layered on top of the lightning bolts)
-    set_fill_color("white")
-    set_outline_color("#cccccc")   # light-gray edge so clouds are visible
-    set_line_thickness(1)
-
-    # Cloud 1 — left side of sky
-    fill_circle(80,  90, 30)
-    fill_circle(110, 75, 38)
-    fill_circle(145, 82, 28)
-    fill_circle(170, 90, 22)
-
-    # Cloud 2 — centre sky (small, fluffy)
-    fill_circle(240, 55, 22)
-    fill_circle(265, 43, 30)
-    fill_circle(295, 50, 24)
-    fill_circle(318, 58, 18)
-
-    # 7. Draw Horizon
+    # 2. Draw a red circle
+    set_fill_color("red")
     set_outline_color("black")
     set_line_thickness(1)
-    draw_line(0, 150, 600, 150)
+    fill_circle(450, 120, 50) 
+
+    # 3. Draw Mountains
+    set_line_thickness(1)
+    set_outline_color("grey")
     
+    # --- LEFT SIDE RANGE ---
+    draw_mountain(150, 100, 200, 250, "#a0a0a0") 
+    draw_mountain(250, 150, 250, 250, "#c0c0c0") 
+    draw_mountain(100, 150, 300, 250, "#808080") 
+    draw_mountain(220, 80, 250, 250, "#a0a0a0")  
     
-    # 9. Draw Forest
-    for x in range(40, 500, 70):
-        # tree trunk
-        set_fill_color("#F325FF")  # purple-pink brown 
-        fill_rectangle(x, 110, 15, 40)
+    # --- RIGHT SIDE RANGE (Mirrored/Duplicated) ---
+    draw_mountain(450, 100, 200, 250, "#a0a0a0") 
+    draw_mountain(350, 150, 250, 250, "#c0c0c0") 
+    draw_mountain(500, 150, 300, 250, "#808080") 
+    draw_mountain(380, 80, 250, 250, "#a0a0a0")  
+
+    # 4. Draw Lightning (Shifted left and up to tuck deeply into the clouds)
+
+    lightning(95, 50, scale=0.3)    
+    
+
+    lightning(390, 48, scale=0.22)
+    
+    # 5. Draw Clouds
+    set_fill_color("white")
+    set_outline_color("#cccccc")   
+    set_line_thickness(1)
+
+    # Cloud 1 — Left side cluster
+    fill_circle(80,  65, 30)
+    fill_circle(110, 50, 38)
+    fill_circle(145, 57, 28)
+    fill_circle(170, 65, 22)
+
+    # Cloud 2 — Right side cluster
+    fill_circle(380, 55, 22)
+    fill_circle(405, 43, 30)
+    fill_circle(435, 50, 24)
+    fill_circle(458, 58, 18)
+
+  
+
+    # 6. Fill the ground base with Light Brown below y=250
+    set_fill_color("#CD853F") 
+    set_outline_color("")
+    fill_rectangle(0, 250, 600, 150)
+
+    # 7. Draw Horizon Line matching the bottom base of the mountains
+    set_outline_color("black")
+    set_line_thickness(1)
+    draw_line(0, 250, 600, 250)
+    
+    # 8. Draw Forest (Way down in the absolute foreground)
+    for x in range(30, 550, 85):
+
+        set_fill_color("brown")  
+        fill_rectangle(x, 260, 20, 60)
         
-        # tree leaves
-        set_fill_color("darkgreen")
-        fill_triangle(x - 20, 119, x + 35, 120, x + 3, 70)
-        fill_triangle(x - 15, 96, x + 30, 95, x + 7, 50)
-    
-    sg.draw_mountain(100, 150, 300, 250, "#808080") # Wide, medium mountain on the left
-    sg.draw_mountain(220, 80, 250, 250, "#a0a0a0")  # Taller mountain overlapping it
 
-
+        set_fill_color("green")
+        set_outline_color("black")
+        fill_triangle(x - 30, 275, x + 50, 275, x + 10, 200)
+        fill_triangle(x - 22, 240, x + 42, 240, x + 10, 170)
 
 
 if __name__ == "__main__":
