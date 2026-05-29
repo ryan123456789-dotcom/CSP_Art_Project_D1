@@ -19,29 +19,24 @@ def draw_picture(width, height):
     # call fill
     sg.fill_circle(450, 50,50)
 
-    # draw a mountain
-    sg.set_fill_color("#827e7e") # relatively dark gray
-    sg. fill_triangle(300, 150, 400, 20, 350, 150)
-    sg.set_fill_color("#c7c1c1") # lighter gray
-    sg. fill_triangle(350, 150, 400, 20, 550, 150)
-
     # draw horizon
     sg.set_outline_color("black")
     sg.set_line_thickness(1)
     sg.draw_line(0, 150, 600, 150)
-    
-    # Define the points the curve should bend through
-    river_points = [
-        (100, 150), # Start point
-        (300, 200), # Bends towards here
-        (200, 350), # Bends back here
-        (500, 500)  # End point
-    ]
 
-    sg.set_outline_color("blue")
-    sg.set_line_thickness(8)
-    sg.draw_curve(river_points)
+
+    #James Mountain 
+    sg.set_line_thickness(1)
+    sg.set_outline_color("grey")
+    sg.draw_mountain(150, 100, 200, 250, "#a0a0a0") # Background mountain
+    sg.draw_mountain(250, 150, 250, 250, "#c0c0c0") # Foreground mountain
     
+    
+    sg.draw_mountain(100, 150, 300, 250, "#808080") # Wide, medium mountain on the left
+    sg.draw_mountain(220, 80, 250, 250, "#a0a0a0")  # Taller mountain overlapping it
+
+
+
 
 if __name__ == "__main__":
     # Launch the wrapper; only edit starting dimensions of canvas if you would like to
