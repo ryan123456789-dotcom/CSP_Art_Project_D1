@@ -3,6 +3,51 @@ import random
 import math
 import tkinter as tk
 
+ def draw_meteor(x, y, size):
+
+    # Outer glow
+    set_fill_color("#FFD700")
+    set_outline_color("")
+
+    fill_circle(x - size*5, y - size*4, size)
+    fill_circle(x - size*4, y - size*3, size)
+    fill_circle(x - size*3, y - size*2, size)
+
+    # Orange flame
+    set_fill_color("#FFA500")
+
+    fill_circle(x - size*4, y - size*3, size-2)
+    fill_circle(x - size*3, y - size*2, size-2)
+    fill_circle(x - size*2, y - size, size-2)
+
+    # Red-hot core
+    set_fill_color("#FF4500")
+
+    fill_circle(x - size*3, y - size*2, size-4)
+    fill_circle(x - size*2, y - size, size-4)
+
+    # Meteor body
+    set_fill_color("#5B4B43")
+    set_outline_color("black")
+    set_line_thickness(2)
+
+    _canvas.create_polygon(
+        x, y,
+        x + size, y - size,
+        x + size*2, y,
+        x + size*1.7, y + size,
+        x + size//2, y + size,
+        x - size//2, y + size//3,
+        fill=_fill_color,
+        outline=_outline_color,
+        width=2
+    )
+
+    # Craters
+    set_fill_color("#2E2520")
+    fill_circle(x + size//2, y, max(2, size//5))
+    fill_circle(x + size, y + size//3, max(2, size//6))
+    fill_circle(x + size//3, y + size//2, max(2, size//7))
 _canvas = None
 _fill_color = "black"
 _outline_color = "black"
@@ -364,7 +409,15 @@ def draw_picture(width, height):
         
     #Function Call of Dinosaur
     draw_trex(200, 300, 4, "darkgreen", "right")
-
+  
+    draw_meteor(50, 40, 10)
+    draw_meteor(120, 70, 8)
+    draw_meteor(210, 50, 12)
+    draw_meteor(300, 90, 9)
+    draw_meteor(380, 45, 14)
+    draw_meteor(470, 80, 10)
+    draw_meteor(540, 35, 11)
+        
 if __name__ == "__main__":
     # Start the single combined canvas window
     start(draw_picture, 600, 400)
