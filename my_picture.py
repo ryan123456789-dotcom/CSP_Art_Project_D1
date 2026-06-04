@@ -3,6 +3,9 @@ import random
 import math
 import tkinter as tk
 
+
+#Written by Justin
+#AI prompt: Do the meteor again
 def draw_meteor(x, y, size):
 
     # Outer glow
@@ -224,7 +227,7 @@ def draw_rain(num_drops=150, max_y=250):
         if y2 < max_y:
             draw_line(x1, y1, x2, y2)
 
-
+#Written by James
 def draw_chicken(x, y, scale, fill_color):
     """
     Draws a customizable chicken at a given center location and scale.
@@ -269,7 +272,8 @@ def draw_chicken(x, y, scale, fill_color):
     )
 
 
-
+#Written by Lionel
+#AI Prompt: Make me a trex
 def draw_trex(x, y, size, color, facing_direction):
     """
     Draws a detailed stylized T-Rex shape with an eye and teeth.
