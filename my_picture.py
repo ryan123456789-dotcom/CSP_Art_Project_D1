@@ -3,7 +3,7 @@ import random
 import math
 import tkinter as tk
 
- def draw_meteor(x, y, size):
+def draw_meteor(x, y, size):
 
     # Outer glow
     set_fill_color("#FFD700")
